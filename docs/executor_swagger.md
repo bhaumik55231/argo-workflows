@@ -978,6 +978,7 @@ ConfigMap volumes support ownership management and SELinux relabeling.
 | dependencies | []string| `[]string` |  | | Dependencies are name of other targets which this depends on |  |
 | depends | string| `string` |  | | Depends are name of other targets which this depends on |  |
 | hooks | [LifecycleHooks](#lifecycle-hooks)| `LifecycleHooks` |  | |  |  |
+| ignoreFailure | boolean| `bool` |  | | Indicates if the task failure should impact workflow failure or not</br>This will allow to indicate if a tasks is non-critical and</br>subsequent tasks would continue for non-critical tasks. |  |
 | inline | [Template](#template)| `Template` |  | |  |  |
 | name | string| `string` |  | | Name is the name of the target |  |
 | onExit | string| `string` |  | | OnExit is a template reference which is invoked at the end of the</br>template, irrespective of the success, failure, or error of the</br>primary template.</br>DEPRECATED: Use Hooks[exit].Template instead. |  |

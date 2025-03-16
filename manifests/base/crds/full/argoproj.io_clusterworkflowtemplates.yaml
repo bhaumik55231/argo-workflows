@@ -5816,6 +5816,8 @@ spec:
                                     type: object
                                 type: object
                               type: object
+                            ignoreFailure:
+                              type: boolean
                             inline:
                               x-kubernetes-preserve-unknown-fields: true
                             name:
@@ -16493,6 +16495,8 @@ spec:
                                       type: object
                                   type: object
                                 type: object
+                              ignoreFailure:
+                                type: boolean
                               inline:
                                 x-kubernetes-preserve-unknown-fields: true
                               name:

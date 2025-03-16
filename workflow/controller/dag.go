@@ -224,7 +224,7 @@ func (d *dagContext) assessDAGPhase(targetTasks []string, nodes wfv1.Nodes, isSh
 }
 
 func (woc *wfOperationCtx) executeDAG(ctx context.Context, nodeName string, tmplCtx *templateresolution.Context, templateScope string, tmpl *wfv1.Template, orgTmpl wfv1.TemplateReferenceHolder, opts *executeTemplateOpts) (*wfv1.NodeStatus, error) {
-
+	// TODO: If tasks is marked as non-critical then we continue execution of downstream dependent tasks
 	node, err := woc.wf.GetNodeByName(nodeName)
 	if err != nil {
 		node = woc.initializeExecutableNode(nodeName, wfv1.NodeTypeDAG, templateScope, tmpl, orgTmpl, opts.boundaryID, wfv1.NodeRunning, opts.nodeFlag)
@@ -403,6 +403,7 @@ func (woc *wfOperationCtx) updateOutboundNodesForTargetTasks(dagCtx *dagContext,
 
 // executeDAGTask traverses and executes the upward chain of dependencies of a task
 func (woc *wfOperationCtx) executeDAGTask(ctx context.Context, dagCtx *dagContext, taskName string) {
+	// TODO: If tasks is marked as non-critical then we continue execution of downstream dependent tasks
 	if _, ok := dagCtx.visited[taskName]; ok {
 		return
 	}
@@ -411,6 +412,10 @@ func (woc *wfOperationCtx) executeDAGTask(ctx context.Context, dagCtx *dagContex
 	node := dagCtx.getTaskNode(taskName)
 	task := dagCtx.GetTask(taskName)
 	log := woc.log.WithField("taskName", taskName)
+
+	// Check if the task has IgnoreFailure set
+	isNonCritical := task.IgnoreFailure
+
 	if node != nil && (node.Fulfilled() || node.Phase == wfv1.NodeRunning) {
 		scope, err := woc.buildLocalScopeFromTask(dagCtx, task)
 		if err != nil {
@@ -531,6 +536,13 @@ func (woc *wfOperationCtx) executeDAGTask(ctx context.Context, dagCtx *dagContex
 			return
 		}
 		if !execute {
+			// continue downstream if task is non-critical and the dependencies are not met
+			if isNonCritical {
+				log.Infof("task %s is non-critical and dependencies not met", taskName)
+				woc.initializeNode(dagCtx.taskNodeName(taskName), wfv1.NodeTypeSkipped, dagCtx.tmplCtx.GetTemplateScope(), task, dagCtx.boundaryID, wfv1.NodeOmitted, &wfv1.NodeFlag{}, "omitted: non-critical task")
+				return
+			}
+
 			// Given the results of this node's dependencies, this node should not be executed. Mark it omitted
 			woc.initializeNode(nodeName, wfv1.NodeTypeSkipped, dagTemplateScope, task, dagCtx.boundaryID, wfv1.NodeOmitted, &wfv1.NodeFlag{}, "omitted: depends condition not met")
 			connectDependencies(nodeName)
@@ -857,7 +869,6 @@ func (d *dagContext) evaluateDependsLogic(taskName string) (bool, bool, error) {
 		if depNode == nil || !depNode.Fulfilled() || !common.CheckAllHooksFullfilled(depNode, d.wf.Status.Nodes) {
 			return false, false, nil
 		}
-
 		evalTaskName := strings.Replace(taskName, "-", "_", -1)
 		if _, ok := evalScope[evalTaskName]; ok {
 			continue

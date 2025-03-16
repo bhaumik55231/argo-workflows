@@ -1186,6 +1186,12 @@ definitions:
                 type: string
             hooks:
                 $ref: '#/definitions/LifecycleHooks'
+            ignoreFailure:
+                description: |-
+                    Indicates if the task failure should impact workflow failure or not
+                    This will allow to indicate if a tasks is non-critical and
+                    subsequent tasks would continue for non-critical tasks.
+                type: boolean
             inline:
                 $ref: '#/definitions/Template'
             name:

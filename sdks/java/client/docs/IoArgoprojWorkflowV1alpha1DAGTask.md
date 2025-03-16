@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **dependencies** | **List&lt;String&gt;** | Dependencies are name of other targets which this depends on |  [optional]
 **depends** | **String** | Depends are name of other targets which this depends on |  [optional]
 **hooks** | [**Map&lt;String, IoArgoprojWorkflowV1alpha1LifecycleHook&gt;**](IoArgoprojWorkflowV1alpha1LifecycleHook.md) | Hooks hold the lifecycle hook which is invoked at lifecycle of task, irrespective of the success, failure, or error status of the primary task |  [optional]
+**ignoreFailure** | **Boolean** | Indicates if the task failure should impact workflow failure or not This will allow to indicate if a tasks is non-critical and subsequent tasks would continue for non-critical tasks. |  [optional]
 **inline** | [**IoArgoprojWorkflowV1alpha1Template**](IoArgoprojWorkflowV1alpha1Template.md) |  |  [optional]
 **name** | **String** | Name is the name of the target | 
 **onExit** | **String** | OnExit is a template reference which is invoked at the end of the template, irrespective of the success, failure, or error of the primary template. DEPRECATED: Use Hooks[exit].Template instead. |  [optional]
