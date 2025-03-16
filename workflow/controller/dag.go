@@ -415,6 +415,7 @@ func (woc *wfOperationCtx) executeDAGTask(ctx context.Context, dagCtx *dagContex
 
 	// Check if the task has IgnoreFailure set
 	isNonCritical := task.IgnoreFailure
+	log.Infof("task %s has IgnoreFailure set to %v", taskName, isNonCritical)
 
 	if node != nil && (node.Fulfilled() || node.Phase == wfv1.NodeRunning) {
 		scope, err := woc.buildLocalScopeFromTask(dagCtx, task)
@@ -540,6 +541,7 @@ func (woc *wfOperationCtx) executeDAGTask(ctx context.Context, dagCtx *dagContex
 			if isNonCritical {
 				log.Infof("task %s is non-critical and dependencies not met", taskName)
 				woc.initializeNode(dagCtx.taskNodeName(taskName), wfv1.NodeTypeSkipped, dagCtx.tmplCtx.GetTemplateScope(), task, dagCtx.boundaryID, wfv1.NodeOmitted, &wfv1.NodeFlag{}, "omitted: non-critical task")
+				connectDependencies(nodeName)
 				return
 			}
 
