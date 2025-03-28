@@ -600,6 +600,11 @@ message DAGTask {
   // Hooks hold the lifecycle hook which is invoked at lifecycle of
   // task, irrespective of the success, failure, or error status of the primary task
   map<string, LifecycleHook> hooks = 13;
+
+  // Indicates if the task failure should impact workflow failure or not
+  // This will allow to indicate if a tasks is non-critical and
+  // subsequent tasks would continue for non-critical tasks.
+  optional bool ignoreFailure = 15;
 }
 
 // DAGTemplate is a template subtype for directed acyclic graph templates

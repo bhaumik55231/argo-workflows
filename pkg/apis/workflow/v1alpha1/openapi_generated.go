@@ -2530,6 +2530,13 @@ func schema_pkg_apis_workflow_v1alpha1_DAGTask(ref common.ReferenceCallback) com
 							},
 						},
 					},
+					"ignoreFailure": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Indicates if the task failure should impact workflow failure or not This will allow to indicate if a tasks is non-critical and subsequent tasks would continue for non-critical tasks.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 				},
 				Required: []string{"name"},
 			},

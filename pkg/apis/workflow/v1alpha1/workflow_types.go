@@ -3273,6 +3273,11 @@ type DAGTask struct {
 	// Hooks hold the lifecycle hook which is invoked at lifecycle of
 	// task, irrespective of the success, failure, or error status of the primary task
 	Hooks LifecycleHooks `json:"hooks,omitempty" protobuf:"bytes,13,opt,name=hooks"`
+
+	// Indicates if the task failure should impact workflow failure or not
+	// This will allow to indicate if a tasks is non-critical and
+	// subsequent tasks would continue for non-critical tasks.
+	IgnoreFailure bool `json:"ignoreFailure,omitempty" protobuf:"varint,15,opt,name=ignoreFailure"`
 }
 
 func (t *DAGTask) GetName() string {

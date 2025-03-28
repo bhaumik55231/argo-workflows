@@ -5026,6 +5026,10 @@
           "description": "Hooks hold the lifecycle hook which is invoked at lifecycle of task, irrespective of the success, failure, or error status of the primary task",
           "type": "object"
         },
+        "ignoreFailure": {
+          "description": "Indicates if the task failure should impact workflow failure or not This will allow to indicate if a tasks is non-critical and subsequent tasks would continue for non-critical tasks.",
+          "type": "boolean"
+        },
         "inline": {
           "$ref": "#/definitions/io.argoproj.workflow.v1alpha1.Template",
           "description": "Inline is the template. Template must be empty if this is declared (and vice-versa). Note: As mentioned in the corresponding definition in WorkflowStep, this struct is defined recursively, so we need \"x-kubernetes-preserve-unknown-fields: true\" in the validation schema."

@@ -103,6 +103,7 @@ class IoArgoprojWorkflowV1alpha1DAGTask(ModelNormal):
             'dependencies': ([str],),  # noqa: E501
             'depends': (str,),  # noqa: E501
             'hooks': ({str: (IoArgoprojWorkflowV1alpha1LifecycleHook,)},),  # noqa: E501
+            'ignore_failure': (bool,),  # noqa: E501
             'inline': (IoArgoprojWorkflowV1alpha1Template,),  # noqa: E501
             'on_exit': (str,),  # noqa: E501
             'template': (str,),  # noqa: E501
@@ -125,6 +126,7 @@ class IoArgoprojWorkflowV1alpha1DAGTask(ModelNormal):
         'dependencies': 'dependencies',  # noqa: E501
         'depends': 'depends',  # noqa: E501
         'hooks': 'hooks',  # noqa: E501
+        'ignore_failure': 'ignoreFailure',  # noqa: E501
         'inline': 'inline',  # noqa: E501
         'on_exit': 'onExit',  # noqa: E501
         'template': 'template',  # noqa: E501
@@ -184,6 +186,7 @@ class IoArgoprojWorkflowV1alpha1DAGTask(ModelNormal):
             dependencies ([str]): Dependencies are name of other targets which this depends on. [optional]  # noqa: E501
             depends (str): Depends are name of other targets which this depends on. [optional]  # noqa: E501
             hooks ({str: (IoArgoprojWorkflowV1alpha1LifecycleHook,)}): Hooks hold the lifecycle hook which is invoked at lifecycle of task, irrespective of the success, failure, or error status of the primary task. [optional]  # noqa: E501
+            ignore_failure (bool): Indicates if the task failure should impact workflow failure or not This will allow to indicate if a tasks is non-critical and subsequent tasks would continue for non-critical tasks.. [optional]  # noqa: E501
             inline (IoArgoprojWorkflowV1alpha1Template): [optional]  # noqa: E501
             on_exit (str): OnExit is a template reference which is invoked at the end of the template, irrespective of the success, failure, or error of the primary template. DEPRECATED: Use Hooks[exit].Template instead.. [optional]  # noqa: E501
             template (str): Name of template to execute. [optional]  # noqa: E501
@@ -282,6 +285,7 @@ class IoArgoprojWorkflowV1alpha1DAGTask(ModelNormal):
             dependencies ([str]): Dependencies are name of other targets which this depends on. [optional]  # noqa: E501
             depends (str): Depends are name of other targets which this depends on. [optional]  # noqa: E501
             hooks ({str: (IoArgoprojWorkflowV1alpha1LifecycleHook,)}): Hooks hold the lifecycle hook which is invoked at lifecycle of task, irrespective of the success, failure, or error status of the primary task. [optional]  # noqa: E501
+            ignore_failure (bool): Indicates if the task failure should impact workflow failure or not This will allow to indicate if a tasks is non-critical and subsequent tasks would continue for non-critical tasks.. [optional]  # noqa: E501
             inline (IoArgoprojWorkflowV1alpha1Template): [optional]  # noqa: E501
             on_exit (str): OnExit is a template reference which is invoked at the end of the template, irrespective of the success, failure, or error of the primary template. DEPRECATED: Use Hooks[exit].Template instead.. [optional]  # noqa: E501
             template (str): Name of template to execute. [optional]  # noqa: E501
